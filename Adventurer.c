@@ -287,22 +287,22 @@ CoordenadaT libreAtras(AdventurerT* aventurero, char mapa[][40]) {
     CoordenadaT libre = {-1,-1};
     switch (aventurero->caracter) {
         case '^': //NORTE
-            if (aventurero->casillas[1] == ' ' || aventurero->casillas[1] == 'O') {
+            if (aventurero->casillas[1] == ' ') {
                 libre = aventurero->posicion;
             }
             break;  
         case 'v': //SUR
-            if (aventurero->casillas[0] == ' ' || aventurero->casillas[0] == 'O') {
+            if (aventurero->casillas[0] == ' ') {
                 libre = aventurero->posicion;
             }
             break;
         case '<': //W = Izq
-            if (aventurero->casillas[3] == ' ' || aventurero->casillas[3] == 'O') {
+            if (aventurero->casillas[3] == ' ') {
                 libre = aventurero->posicion;
             }
             break;
         case '>': // E = Der
-            if (aventurero->casillas[2] == ' ' || aventurero->casillas[2] == 'O') {
+            if (aventurero->casillas[2] == ' ') {
                 libre = aventurero->posicion;
             } 
             break;
@@ -311,15 +311,50 @@ CoordenadaT libreAtras(AdventurerT* aventurero, char mapa[][40]) {
     return libre;
 }
 
+int salidaAtras(AdventurerT* aventurero, char mapa[][40]) {
+    int haySalida = 0;
+    // Verifica si hay camino libre hacia adelante basado en la dirección actual
+    switch (aventurero->caracter) {
+        case '^': //NORTE
+            if ( aventurero->casillas[1] == 'O') {
+                haySalida = 1;
+            }
+            break;  
+        case 'v': //SUR
+            if (aventurero->casillas[0] == 'O') {
+                haySalida = 1;
+            }
+            break;
+        case '<': //W = Izq
+            if (aventurero->casillas[3] == 'O') {
+                haySalida = 1;
+            }
+            break;
+        case '>': // E = Der
+            if (aventurero->casillas[2] == 'O') {
+                haySalida = 1;
+            } 
+            break; 
+    }
+
+    return haySalida;    
+}
+
 void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
     static FSMadv Estado = Espera;
     CoordenadaT adelante, atras, izq, der;
+    int extAdelante, extIzq, extDer, extDetras;
     while (1) {
+
         obtenerCasillas(aventurero, mapa);
         adelante = libreAdelante(aventurero, mapa);
         atras = libreAtras(aventurero, mapa);
         izq = libreIzq(aventurero, mapa);
         der = libreDer(aventurero, mapa);
+        extAdelante = salidaAdelante(aventurero, mapa);
+        extIzq = salidaIzq(aventurero, mapa);
+        extDer = salidaDer(aventurero, mapa);
+        extDetras = salidaAtras(aventurero, mapa);
         //Priorizar casilla 
 
         switch (Estado)
@@ -328,6 +363,7 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                 printf("Tomando decisión...\n");
 
                 // Verificar si alguna de las casillas es la salida
+                //Cambiar a logica para salir
                 if ((mapa[adelante.posY][adelante.posX] == 'O') ||
                     (mapa[atras.posY][atras.posX] == 'O') ||
                     (mapa[izq.posY][izq.posX] == 'O') ||
