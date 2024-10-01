@@ -171,22 +171,22 @@ CoordenadaT libreDer(AdventurerT* aventurero, char mapa[][40]) {
     CoordenadaT libre = {-1,-1};
     switch (aventurero->caracter) {
         case '^': //NORTE
-            if (aventurero->casillas[3] == ' ' || aventurero->casillas[3] == 'O') {
+            if (aventurero->casillas[3] == ' ') {
                 libre = aventurero->posicion;
             }
             break;  
         case 'v': //SUR
-            if (aventurero->casillas[2] == ' ' || aventurero->casillas[2] == 'O') {
+            if (aventurero->casillas[2] == ' ') {
                 libre = aventurero->posicion;
             }
             break;
         case '<': //W = Izq
-            if (aventurero->casillas[0] == ' ' || aventurero->casillas[0] == 'O') {
+            if (aventurero->casillas[0] == ' ') {
                 libre = aventurero->posicion;
             }
             break;
         case '>': // E = Der
-            if (aventurero->casillas[1] == ' ' || aventurero->casillas[1] == 'O') {
+            if (aventurero->casillas[1] == ' ') {
                 libre = aventurero->posicion;
             } 
             break; 
@@ -345,16 +345,21 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
     CoordenadaT adelante, atras, izq, der;
     int extAdelante, extIzq, extDer, extDetras;
     while (1) {
-
+        //Casillas jugador
         obtenerCasillas(aventurero, mapa);
         adelante = libreAdelante(aventurero, mapa);
         atras = libreAtras(aventurero, mapa);
         izq = libreIzq(aventurero, mapa);
         der = libreDer(aventurero, mapa);
+        //Revisar si hay salida
         extAdelante = salidaAdelante(aventurero, mapa);
+        printf("Salida Adelante = %d\n", extAdelante);
         extIzq = salidaIzq(aventurero, mapa);
+        printf("Salida Izquierda = %d\n", extIzq);
         extDer = salidaDer(aventurero, mapa);
+        printf("Salida Derecha = %d\n", extDer);
         extDetras = salidaAtras(aventurero, mapa);
+        printf("Salida Atras = %d\n", extDetras);
         //Priorizar casilla 
 
         switch (Estado)
@@ -364,11 +369,18 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
 
                 // Verificar si alguna de las casillas es la salida
                 //Cambiar a logica para salir
-                if ((mapa[adelante.posY][adelante.posX] == 'O') ||
-                    (mapa[atras.posY][atras.posX] == 'O') ||
-                    (mapa[izq.posY][izq.posX] == 'O') ||
-                    (mapa[der.posY][der.posX] == 'O')) {
-                    Estado = Salida;
+                // Verificar si alguna de las casillas es la salida
+                if (extAdelante == 1) {
+                    Estado = Moverse;
+                    break;
+                } else if (extIzq == 1) {
+                    Estado = Girar;
+                    break;
+                } else if (extDer == 1) {
+                    Estado = Girar;
+                    break;
+                } else if (extDetras == 1) {
+                    Estado = Girar;
                     break;
                 }
 
@@ -394,6 +406,8 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                 break;
             
             case Moverse:
+                extAdelante = salidaAdelante(aventurero, mapa);
+                printf("Salida Adelante = %d\n", extAdelante);
                 printf("Me muevo...\n");
                 if (adelante.posX != -1 && adelante.posY != -1) {
                     // Actualizar la posición y la ruta
@@ -403,16 +417,38 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                 } else {
                     Estado = Girar;
                 }
+
+                if (extAdelante == 1) {
+                    Estado = Salida;
+                }
                 break;
             
             case Girar:
-                printf("Debo girar...\n");
+
+                //Girar a la Salida
+                if (extIzq == 1) {
+                    girar90(aventurero, mapa, 0);
+                    Estado = Moverse;
+                    break;
+                } else if (extDer == 1) {
+                    girar90(aventurero, mapa, 1);
+                    Estado = Moverse;
+                    break;
+                } else if (extDetras == 1) {
+                    girar180(aventurero, mapa, 0);
+                    Estado = Moverse;
+                    break;
+                }
+
+                printf("Debo girar...");
                 if (der.posX != -1 && der.posY != -1) {
+                    printf("Hacia la derecha...\n");
                     // Si la derecha está libre, girar hacia la derecha
                     girar90(aventurero, mapa, 0);
                     Estado = Moverse;
 
                 } else if (izq.posX != -1 && izq.posY != -1) {
+                    printf("Hacia la izquierda...\n");
                     // Si la izquierda está libre, girar a la izquierda
                     girar90(aventurero, mapa, 1);
                     Estado = Moverse;
@@ -421,13 +457,15 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                     Estado = Moverse; 
 
                 } else if (atras.posX != -1 && atras.posY != -1) {
+                    printf("180...\n");
                     girar180(aventurero, mapa, 0);
                     Estado = Moverse;
-                }
-                break;
-            
+                }     
+                break;   
+
             case Salida:
                 printf("Saliendo del laberinto...\n");
+                mapa[aventurero->posicion.posY][aventurero->posicion.posX] = ' ';
                 return; 
         }
         //Delay(3);

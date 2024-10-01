@@ -36,6 +36,8 @@ void girar180(AdventurerT* aventurero, char mapa[][40], int orientacion);
 void moverse(AdventurerT* aventurero, char mapa[][40]);
 void obtenerCasillas(AdventurerT* aventurero, char mapa[][40]);
 
+//AGREGAR FUNCION DE BACKTRACKING
+
 //Revisar camino
 CoordenadaT libreAdelante(AdventurerT* aventurero, char mapa[][40]);
 int salidaAdelante(AdventurerT* aventurero, char mapa[][40]);
