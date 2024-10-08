@@ -35,6 +35,7 @@ void girar90(AdventurerT* aventurero, char mapa[][40], int orientacion);
 void girar180(AdventurerT* aventurero, char mapa[][40], int orientacion);
 void moverse(AdventurerT* aventurero, char mapa[][40]);
 void obtenerCasillas(AdventurerT* aventurero, char mapa[][40]);
+void backtrace(AdventurerT* aventurero, int memRuta[], char mapa[][40]);
 
 //AGREGAR FUNCION DE BACKTRACKING
 
