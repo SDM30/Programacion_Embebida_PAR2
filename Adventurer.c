@@ -429,34 +429,35 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
         der = libreDer(aventurero, mapa);
         //Revisar si hay salida
         extAdelante = salidaAdelante(aventurero, mapa);
-        printf("Salida Adelante = %d\n", extAdelante);
         extIzq = salidaIzq(aventurero, mapa);
-        printf("Salida Izquierda = %d\n", extIzq);
         extDer = salidaDer(aventurero, mapa);
-        printf("Salida Derecha = %d\n", extDer);
         extDetras = salidaAtras(aventurero, mapa);
-        printf("Salida Atras = %d\n", extDetras);
 
         //Priorizar casilla 
         backtrace(aventurero, memRuta, mapa);
-        uint minVal = 0;
-        printf("VALORES BACKTRACE\n");
+        uint minVal = memRuta[0];
         for (int i = 0; i < 4; i++) {
             printf("%d\n", memRuta[i]);
-            if ((memRuta[i] != -1) && (minVal <= memRuta[i])) {
+            if ((memRuta[i] != -1) && (memRuta[i] <= minVal)) {
                 minVal = memRuta[i];
             }
         }
-
-        printf("MinVal Encontrado = %d\n",minVal);
 
         switch (Estado)
         {
             case Espera:
                 printf("Tomando decisión...\n");
-                sleep(1);
-                // Verificar si alguna de las casillas es la salida
-                //Cambiar a logica para salir
+                //Priorizar casilla 
+                backtrace(aventurero, memRuta, mapa);
+                printf("VALORES BACKTRACE\n");
+                for (int i = 0; i < 4; i++) {
+                    printf("%d\n", memRuta[i]);
+                    if ((memRuta[i] != -1) && (memRuta[i] <= minVal)) {
+                        minVal = memRuta[i];
+                    }
+                }
+                printf("MinVal Encontrado = %d\n",minVal);
+
                 // Verificar si alguna de las casillas es la salida
                 if (extAdelante == 1) {
                     Estado = Moverse;
@@ -537,22 +538,22 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                 }
 
                 printf("Debo girar...");
-                if (der.posX != -1 && der.posY != -1) {
+                if ((der.posX != -1 && der.posY != -1) && minVal == memRuta[0]) {
                     printf("Hacia la derecha...\n");
                     // Si la derecha está libre, girar hacia la derecha
                     girar90(aventurero, mapa, 0);
                     Estado = Moverse;
 
-                } else if (izq.posX != -1 && izq.posY != -1) {
+                } else if ((izq.posX != -1 && izq.posY != -1) && minVal == memRuta[2]) {
                     printf("Hacia la izquierda...\n");
                     // Si la izquierda está libre, girar a la izquierda
                     girar90(aventurero, mapa, 1);
                     Estado = Moverse;
 
-                } else if (adelante.posX != -1 && adelante.posY != -1) {
+                } else if ((adelante.posX != -1 && adelante.posY != -1)) {
                     Estado = Moverse; 
 
-                } else if (atras.posX != -1 && atras.posY != -1) {
+                } else if ((atras.posX != -1 && atras.posY != -1)) {
                     printf("180...\n");
                     girar180(aventurero, mapa, 0);
                     Estado = Moverse;
@@ -560,12 +561,14 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40]) {
                 break;   
 
             case Salida:
-                printf("Saliendo del laberinto...\n");
+                printf("\n\nSaliendo del laberinto...\n");
+                printf("Numero de Pasos Final = %d\n", aventurero->numPasos);
+                printf("Numero de Giros Final = %d\n", aventurero->numGiros);
                 mapa[aventurero->posicion.posY][aventurero->posicion.posX] = ' ';
                 return; 
         }
         //Delay(3);
-        sleep(0.5);
+        //sleep(0.01);
         imprMapa(40, 40,mapa);
         Cls();
 
@@ -597,7 +600,6 @@ AdventurerT inicializarAventurero(char mapa[][40]) {
             
                 adv1.posicion.posX = j;
                 adv1.posicion.posY = i;
-                adv1.turno = 1;
                 adv1.numGiros = 0;
                 adv1.numPasos = 0;
 
@@ -647,16 +649,13 @@ AdventurerT inicializarAventurero(char mapa[][40]) {
 
 void pruebaMapas() {
     MazeT Mapa = selMapa();
-    AdventurerT Aventurero[6];
-    //for() 
-    //{
-                // i
+    AdventurerT Aventurero[MAXADV];
+    int turno = 1;
+
+    //for (int i = 0; i < MAXADV; i++) {
         Aventurero[0] = inicializarAventurero(Mapa.mapa);
-        Aventurero->turno = 0;
-        //Aventurero[], pasar indice a funcion para inicializar cada aventurero
+        Aventurero[0].turno = turno;
+        manoDerecha(&Aventurero[0], Mapa.mapa);
+        turno ++;
     //}
-    manoDerecha(&Aventurero[0], Mapa.mapa);        
-    if (Aventurero[0].posicion.posX >= 40 || Aventurero[0].posicion.posY >= 40) {
-        return;
-    }
 }
