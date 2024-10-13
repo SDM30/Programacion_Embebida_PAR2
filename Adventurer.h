@@ -26,6 +26,7 @@ struct Adventurer
     uint numGiros;
     char casillas[4]; //entorno del aventurero
     uint turno;
+    FSMadv estadoAdv;
     int ruta[40][40];
 };
 void actualizarMapaChar(AdventurerT* aventurero, char mapa[][40]);
@@ -50,11 +51,10 @@ CoordenadaT libreAtras(AdventurerT* aventurero, char mapa[][40]);
 int salidaAtras(AdventurerT* aventurero, char mapa[][40]);
 
 //Cerebro Aventurero
-void manoDerecha(AdventurerT* aventurero, char mapa[][40]);
+void manoDerecha(AdventurerT* aventurero, char mapa[][40], int verbose);
 
 
-void numeroAventureros(char mapa[][40]);
-AdventurerT inicializarAventurero(char mapa[][40]);
+void inicializarAventurero(char mapa[][40], int* numeroAven, AdventurerT aventureros[]);
 void pruebaMapas();
 
 

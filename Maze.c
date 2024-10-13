@@ -93,11 +93,13 @@ void imprMapa(int Filas, int Colums, char Mapa[Filas][Colums]) {
 
 MazeT selMapa() {
 
-    MazeT Mapa1, Mapa2, Mapa3, Mapa4;
+    MazeT Mapa1, Mapa2, Mapa3, Mapa4, MapaSel;
     ReadMatrix(40, 40, Mapa1.mapa, 1, "Map1.txt", Mapa1.desc);
     ReadMatrix(40, 40, Mapa2.mapa, 1, "Map2.txt", Mapa2.desc);
     ReadMatrix(40, 40, Mapa3.mapa, 1, "Map3.txt", Mapa3.desc);
     ReadMatrix(40, 40, Mapa4.mapa, 1, "Map4.txt", Mapa4.desc);
+
+    MapaSel.numAventureros = 7;
 
     int opcion = -1;
     while (opcion != 0) {
@@ -112,22 +114,22 @@ MazeT selMapa() {
         switch (opcion) {
         case 1:
             imprMapa(40,40, Mapa1.mapa);
-            return Mapa1;
+            MapaSel = Mapa1;
             break;
 
         case 2:
             imprMapa(40,40, Mapa2.mapa);
-            return Mapa2;
+            MapaSel = Mapa2;
             break;
         
         case 3:
             imprMapa(40,40, Mapa3.mapa);
-            return Mapa3;
+            MapaSel = Mapa3;
             break;
         
         case 4:
             imprMapa(40,40, Mapa4.mapa);
-            return Mapa4;
+            MapaSel = Mapa4;
             break;
 
         case 0:
@@ -138,6 +140,7 @@ MazeT selMapa() {
             printf("INGRESE UNA OPCION VALIDA\n");
             break;
         }
-
-    } 
+        return MapaSel;
+    }
+    return MapaSel;
 }

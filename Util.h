@@ -37,4 +37,7 @@ void BackgroundColor (uchar FontColor,uchar BgColor);
 void Delay           (int   Seconds                );
 int  GetRandom		 (int min, int max			   );
 
+//Linux
+void Pausar();
+
 #endif /* UTIL_H_ */

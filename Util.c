@@ -113,3 +113,9 @@ int  GetRandom (int min, int max)
 	int RandNum = rand() % (max - min + 1) + min;
 	return RandNum;
 }
+
+void Pausar() {
+	char a;
+	printf("Ingrese un caracter para continuar...\n");
+	scanf(" %c", &a);
+}
