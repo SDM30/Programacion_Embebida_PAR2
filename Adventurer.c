@@ -699,15 +699,15 @@ void pruebaMapas() {
     while (todosSalieron == 0)
     {
         //Si el aventurero ya salio
+        manoDerecha(&Aventurero[turnoMapa], Mapa.mapa, 0);
         if (Aventurero[turnoMapa].estadoAdv == Salida) {
             salidas[turnoMapa] = 1;
         } else {
             Cls();
             printf("TURNO %d\n", Aventurero[turnoMapa].turno);
-            manoDerecha(&Aventurero[turnoMapa], Mapa.mapa, 0);
             imprMapa(40, 40,Mapa.mapa);
+            usleep(50000); //Pausa 0.05 segundos
         }
-        manoDerecha(&Aventurero[turnoMapa], Mapa.mapa, 0);
         turnoMapa ++;
         turnoMapa = turnoMapa % Mapa.numAventureros;
 

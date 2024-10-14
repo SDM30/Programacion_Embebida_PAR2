@@ -17,7 +17,7 @@
 
 
 #define Pause() system("pause")
-#define Cls()   system("cls")
+#define Cls()   system("clear")
 
 typedef unsigned char uchar;
 
