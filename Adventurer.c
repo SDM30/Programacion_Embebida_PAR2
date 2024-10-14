@@ -603,7 +603,10 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40], int verbose) {
                 break;   
 
             case Salida:
-                printf("\n\nSaliendo del laberinto...\n");
+                if (verbose) {
+                    printf("\n\nSaliendo del laberinto...\n");
+                }
+                
                 mapa[aventurero->posicion.posY][aventurero->posicion.posX] = ' ';
                 return; 
         }
@@ -706,7 +709,7 @@ void pruebaMapas() {
             Cls();
             printf("TURNO %d\n", Aventurero[turnoMapa].turno);
             imprMapa(40, 40,Mapa.mapa);
-            usleep(50000); //Pausa 0.05 segundos
+            usleep(20000); //Pausa 0.05 segundos
         }
         turnoMapa ++;
         turnoMapa = turnoMapa % Mapa.numAventureros;
