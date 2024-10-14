@@ -696,6 +696,7 @@ void pruebaMapas() {
         printf( "Aventurero con turno = %d \n"
                 "Posicion = (%d,%d) \n", Aventurero[i].turno, Aventurero[i].posicion.posX, Aventurero[i].posicion.posY);
     }
+    Pausar();
 
     int turnoMapa = 0, todosSalieron = 0;
 
@@ -709,7 +710,7 @@ void pruebaMapas() {
             Cls();
             printf("TURNO %d\n", Aventurero[turnoMapa].turno);
             imprMapa(40, 40,Mapa.mapa);
-            usleep(40000); //Pausa 0.05 segundos
+            usleep(40000); //Pausa 0.04 segundos
         }
         turnoMapa ++;
         turnoMapa = turnoMapa % Mapa.numAventureros;
