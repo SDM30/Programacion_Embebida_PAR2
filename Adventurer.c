@@ -745,5 +745,6 @@ void pruebaMapas() {
                 printf("\n");
             }  
         }
-    }    
+    }
+    Pausar();    
 }
