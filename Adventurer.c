@@ -607,23 +607,6 @@ void manoDerecha(AdventurerT* aventurero, char mapa[][40], int verbose) {
                 mapa[aventurero->posicion.posY][aventurero->posicion.posX] = ' ';
                 return; 
         }
-        Cls();
-        printf("TURNO %d\n", aventurero->turno);
-        imprMapa(40, 40,mapa);
-        Delay(0.0001);
-        
-
-        //Imprimir miniMapa Aventurero
-        // for (int i = 0; i < 40; i++){
-        //     for (int j = 0; j < 40; j++) {
-        //             if (aventurero->ruta[i][j] != 0){
-        //             printf("%d",aventurero->ruta[i][j]);
-        //         }else {
-        //             printf(" ");
-        //         }
-        //     }
-        //     printf("\n");
-        // }  
              
     }
  
@@ -715,14 +698,16 @@ void pruebaMapas() {
 
     while (todosSalieron == 0)
     {
-        //printf("Valor actual salida = %d \n", todosSalieron);
         //Si el aventurero ya salio
         if (Aventurero[turnoMapa].estadoAdv == Salida) {
             salidas[turnoMapa] = 1;
+        } else {
+            Cls();
+            printf("TURNO %d\n", Aventurero[turnoMapa].turno);
+            manoDerecha(&Aventurero[turnoMapa], Mapa.mapa, 0);
+            imprMapa(40, 40,Mapa.mapa);
         }
         manoDerecha(&Aventurero[turnoMapa], Mapa.mapa, 0);
-        //Cls();
-        //Pausar();
         turnoMapa ++;
         turnoMapa = turnoMapa % Mapa.numAventureros;
 
@@ -735,7 +720,6 @@ void pruebaMapas() {
             todosSalieron = 1;
             break;
         }
-        //Pausar();
     }
 
     if (todosSalieron) {
@@ -761,6 +745,5 @@ void pruebaMapas() {
                 printf("\n");
             }  
         }
-    }
-    
+    }    
 }
