@@ -94,10 +94,10 @@ void imprMapa(int Filas, int Colums, char Mapa[Filas][Colums]) {
 MazeT selMapa() {
 
     MazeT Mapa1, Mapa2, Mapa3, Mapa4, MapaSel;
-    ReadMatrix(40, 40, Mapa1.mapa, 1, "Map1.txt", Mapa1.desc);
-    ReadMatrix(40, 40, Mapa2.mapa, 1, "Map2.txt", Mapa2.desc);
-    ReadMatrix(40, 40, Mapa3.mapa, 1, "Map3.txt", Mapa3.desc);
-    ReadMatrix(40, 40, Mapa4.mapa, 1, "Map4.txt", Mapa4.desc);
+    ReadMatrix(40, 40, Mapa1.mapa, 0, "Map1.txt", Mapa1.desc);
+    ReadMatrix(40, 40, Mapa2.mapa, 0, "Map2.txt", Mapa2.desc);
+    ReadMatrix(40, 40, Mapa3.mapa, 0, "Map3.txt", Mapa3.desc);
+    ReadMatrix(40, 40, Mapa4.mapa, 0, "Map4.txt", Mapa4.desc);
 
     MapaSel.numAventureros = 7;
 
@@ -106,9 +106,9 @@ MazeT selMapa() {
         printf("1. Mapa 1: %s\n"
                "2. Mapa 2: %s\n"
                "3. Mapa 3: %s\n"
-               "4. Mapa 4: SUSTENTACION\n"
+               "4. Mapa 4: %s\n"
                "0. Salir\n"
-               "Opcion Usuario>>", Mapa1.desc, Mapa2.desc, Mapa3.desc);
+               "Opcion Usuario>>", Mapa1.desc, Mapa2.desc, Mapa3.desc, Mapa4.desc);
         scanf("%d", &opcion);
 
         switch (opcion) {

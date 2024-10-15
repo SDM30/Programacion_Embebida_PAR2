@@ -710,7 +710,7 @@ void pruebaMapas() {
             Cls();
             printf("TURNO %d\n", Aventurero[turnoMapa].turno);
             imprMapa(40, 40,Mapa.mapa);
-            usleep(40000); //Pausa 0.04 segundos
+            usleep(20000); //Pausa 0.04 segundos
         }
         turnoMapa ++;
         turnoMapa = turnoMapa % Mapa.numAventureros;
